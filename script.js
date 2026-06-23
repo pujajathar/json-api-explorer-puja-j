@@ -8,21 +8,53 @@ fetch("https://jsonplaceholder.typicode.com/posts")
 
     //convert the response to JSON
     return response.json();
-    console.log(json);
+   
 }).then(function(posts){
-    const div = document.getElementById("postList");
-    div.innerHTML = "";
+    const postList = document.getElementById("postList");
+    postList.innerHTML = "";
+   
     for(let post of posts) {    //titles and body for each post
-     div.innerHTML +=       
- `
- Title: ${post.title}<br>
- Body: ${post.body}<br>
+       
+        postList.innerHTML +=       
+ ` 
+ <h2>Title: ${post.title}</h2>
+ <p>Body: ${post.body}</p>
 `
     }
 })
 
+})
+    // Task 2. Create and Send a New Post
+  const titleInput = document.getElementById("titleInput");
+  const bodyInput = document.getElementById("bodyInput");
+  const postForm = document.getElementById("postForm");
+  const formSuccess = document.getElementById("formSuccess");
+    postForm.addEventListener("submit", function(event) {
+        event.preventDefault();    //prevents the page refresh when submitting the form to create a new post.
+        fetch("https://jsonplaceholder.typicode.com/posts" , {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"  
+            },
+            body: JSON.stringify({   //JavaScript object into a JSON string.
+                title: titleInput.value,
+                body: bodyInput.value
+               
+            })
+        }).then(response => {
+            return response.json();
+        }).then(json => {
+            console.log(json); 
+            formSuccess.innerHTML =  "Form updated successfully";     //Prints Confirmation message
+
+        
+        })
+            
+            })
+
+
+ })
+
     
-})
-})
 
 
